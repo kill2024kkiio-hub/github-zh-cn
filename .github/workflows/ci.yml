@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: 词典 / 覆盖率 / DOM / 后台 / 性能 + 敏感信息自检
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 敏感信息自检
+        run: node tools/scan-secrets.mjs
+
+      - name: 词典体检
+        run: node test/dict-lint.mjs
+
+      - name: 覆盖率
+        run: node test/coverage.mjs
+
+      - name: DOM 集成
+        run: node test/dom-test.mjs
+
+      - name: 后台服务
+        run: node test/background-test.mjs
+
+      - name: 性能
+        run: node test/perf.mjs
+
+      - name: manifest 校验
+        run: node -e "const m=require('./manifest.json'); if(m.manifest_version!==3) throw new Error('需要 MV3'); for (const p of [m.background.service_worker, m.action.default_popup, m.options_ui.page, ...m.content_scripts[0].js, ...m.content_scripts[0].css]) { if (!require('fs').existsSync(p)) throw new Error('缺少文件: '+p); } console.log('manifest OK', m.version);"

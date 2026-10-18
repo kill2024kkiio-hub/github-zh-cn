@@ -1,0 +1,27 @@
+{
+  "name": "github-zh-cn",
+  "version": "1.2.0",
+  "private": true,
+  "description": "GitHub 界面中文化浏览器扩展（Manifest V3）：内置 UI 词典 + 可选全文翻译",
+  "type": "module",
+  "scripts": {
+    "test": "node test/dict-lint.mjs && node test/coverage.mjs && node test/dom-test.mjs && node test/background-test.mjs && node test/perf.mjs",
+    "test:dict": "node test/dict-lint.mjs && node test/coverage.mjs",
+    "test:dom": "node test/dom-test.mjs",
+    "test:bg": "node test/background-test.mjs",
+    "test:perf": "node test/perf.mjs",
+    "scan": "node tools/scan-secrets.mjs",
+    "icons": "node tools/make-icons.mjs"
+  },
+  "keywords": [
+    "chrome-extension",
+    "github",
+    "i18n",
+    "translation",
+    "zh-cn"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "^30.1.3"
+  }
+}

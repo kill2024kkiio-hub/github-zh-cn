@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GitHub 汉化</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="head">
+    <div class="brand">
+      <span class="logo">中</span>
+      <div class="brand-text">
+        <strong>GitHub 汉化</strong>
+        <span class="muted" id="version">v1.0.0</span>
+      </div>
+    </div>
+    <label class="switch" title="开启 / 关闭汉化">
+      <input type="checkbox" id="enabled" />
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <section class="card">
+    <div class="row-title">翻译范围</div>
+    <div class="segmented" id="mode">
+      <button type="button" data-mode="ui">仅界面</button>
+      <button type="button" data-mode="full">界面 + 正文</button>
+    </div>
+    <p class="hint">「仅界面」只翻译菜单、按钮、状态等固定文案；「界面 + 正文」还会翻译 README、Issue、PR 的正文内容。</p>
+    <label class="inline-check">
+      <input type="checkbox" id="machineFallback" />
+      <span>补全未收录文案（机翻兜底）</span>
+    </label>
+    <p class="hint">开启后，词典没收录的界面短文案也会送翻译服务，覆盖率接近 100%；关闭则完全离线、只翻已收录词条。</p>
+  </section>
+
+  <section class="card stats">
+    <div class="stat">
+      <span class="stat-value" id="stat-ui">0</span>
+      <span class="stat-label">界面文本</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="stat-content">0</span>
+      <span class="stat-label">正文段落</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="stat-dict">0</span>
+      <span class="stat-label">词典词条</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="row-title">翻译服务</div>
+    <div class="provider-line">
+      <span id="provider-name" class="badge">Google（免密钥）</span>
+      <button type="button" class="link" id="open-options">设置</button>
+    </div>
+    <p class="hint" id="tip">不配置也能用：默认走免密钥的 Google 翻译端点。</p>
+  </section>
+
+  <div class="actions">
+    <button type="button" class="primary" id="retranslate">重新翻译本页</button>
+    <button type="button" class="ghost" id="revert">还原英文</button>
+  </div>
+
+  <p class="err" id="error" hidden></p>
+  <footer class="foot">
+    <span>快捷键：Alt + Shift + T 切换开关</span>
+    <span id="status" class="muted"></span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

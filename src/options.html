@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GitHub 汉化 · 设置</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div class="logo">中</div>
+      <div>
+        <h1>GitHub 汉化 · 设置</h1>
+        <p class="muted">界面上限由内置词典覆盖；正文内容走下面的翻译服务，结果会本地缓存，重复浏览不再请求。</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>基本</h2>
+      <label class="field">
+        <span class="label">总开关</span>
+        <input type="checkbox" id="enabled" />
+        <span class="desc">关闭后立即把页面还原为英文</span>
+      </label>
+      <label class="field">
+        <span class="label">翻译正文</span>
+        <input type="checkbox" id="translateContent" />
+        <span class="desc">翻译 README、Issue、PR、评论等长文本（需要翻译服务）</span>
+      </label>
+      <label class="field">
+        <span class="label">机翻兜底</span>
+        <input type="checkbox" id="machineFallback" />
+        <span class="desc">词典没收录的界面短文案也送翻译服务，覆盖率接近 100%；关闭则完全离线</span>
+      </label>
+      <label class="field">
+        <span class="label">目标语言</span>
+        <select id="targetLang">
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁体中文</option>
+        </select>
+      </label>
+      <label class="field">
+        <span class="label">悬浮按钮</span>
+        <input type="checkbox" id="floatingButton" />
+        <span class="desc">在页面右下角显示「中 / EN」快捷开关</span>
+      </label>
+      <label class="field">
+        <span class="label">悬停看原文</span>
+        <input type="checkbox" id="showOriginalOnHover" />
+        <span class="desc">鼠标悬停时通过 title 提示显示英文原文</span>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>翻译服务</h2>
+      <label class="field">
+        <span class="label">服务商</span>
+        <select id="provider">
+          <option value="google">Google（免密钥，默认）</option>
+          <option value="deepl">DeepL API</option>
+          <option value="azure">Microsoft Translator</option>
+          <option value="openai">OpenAI 兼容接口（含 DeepSeek / 本地模型）</option>
+        </select>
+      </label>
+
+      <div class="provider-block" data-provider="google">
+        <p class="note">使用 <code>translate.googleapis.com</code> 的公开端点，无需密钥、无需注册。适合个人日常使用。</p>
+      </div>
+
+      <div class="provider-block" data-provider="deepl">
+        <label class="field">
+          <span class="label">API Key</span>
+          <input type="password" id="deeplKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:fx" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span class="label">专业版</span>
+          <input type="checkbox" id="deeplPro" />
+          <span class="desc">免费版 Key 以 <code>:fx</code> 结尾，保持不勾选</span>
+        </label>
+      </div>
+
+      <div class="provider-block" data-provider="azure">
+        <label class="field">
+          <span class="label">订阅 Key</span>
+          <input type="password" id="azureKey" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span class="label">区域</span>
+          <input type="text" id="azureRegion" placeholder="如 eastasia（部分资源可留空）" />
+        </label>
+      </div>
+
+      <div class="provider-block" data-provider="openai">
+        <label class="field">
+          <span class="label">接口地址</span>
+          <input type="text" id="openaiBase" placeholder="https://api.openai.com/v1" />
+        </label>
+        <label class="field">
+          <span class="label">API Key</span>
+          <input type="password" id="openaiKey" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span class="label">模型</span>
+          <input type="text" id="openaiModel" placeholder="gpt-4o-mini" />
+        </label>
+        <p class="note">任何兼容 <code>/chat/completions</code> 的服务都能用；本地服务把地址填成 <code>http://127.0.0.1:8000/v1</code> 即可。</p>
+      </div>
+
+      <div class="row">
+        <button type="button" class="ghost" id="test">测试连接</button>
+        <span id="test-result" class="muted"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>自定义词条</h2>
+      <p class="note">每行一条，格式 <code>English=中文</code>，会覆盖内置词典的同名词条。例如：</p>
+      <pre class="sample">Merge pull request=合并拉取请求
+Sponsor=赞助我
+Projects=项目管理</pre>
+      <textarea id="glossary" rows="8" spellcheck="false" placeholder="English=中文"></textarea>
+    </section>
+
+    <section class="card">
+      <h2>维护</h2>
+      <div class="row">
+        <button type="button" class="ghost" id="clear-cache">清空翻译缓存</button>
+        <span id="cache-result" class="muted"></span>
+      </div>
+      <p class="note">缓存存在浏览器本地（<code>chrome.storage.local</code>），清空后正文会重新请求翻译。</p>
+    </section>
+
+    <footer class="bar">
+      <span id="save-state" class="muted"></span>
+      <button type="button" class="primary" id="save">保存设置</button>
+    </footer>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

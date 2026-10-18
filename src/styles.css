@@ -1,0 +1,73 @@
+/* ── GitHub 汉化 · 页面样式微调 ────────────────────────────
+   只做两件事：给中文选更合适的中文字体、给悬浮开关上样式。
+   不修改布局尺寸，避免破坏 GitHub 原有排版。                */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC",
+    Helvetica, Arial, sans-serif !important;
+}
+
+/* 代码字体必须保持等宽，否则缩进和列对齐会乱 */
+pre,
+code,
+kbd,
+samp,
+tt,
+.blob-code,
+.blob-code-inner,
+.react-code-text,
+.react-code-lines,
+.highlight,
+.CodeMirror,
+.cm-editor,
+.monaco-editor,
+textarea,
+.github-zh-mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace !important;
+}
+
+/* 中文不吃 letter-spacing，长词不拆行更自然 */
+[data-ghzh] {
+  letter-spacing: 0 !important;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 按钮/链接里的中文行高略放宽，避免裁切 */
+a[data-ghzh],
+button[data-ghzh],
+summary[data-ghzh] {
+  line-height: 1.45;
+}
+
+/* ── 悬浮开关 ─────────────────────────────────────────── */
+.ghzh-float {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  z-index: 2147483000;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+  background: #0969da;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(9, 105, 218, 0.35);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+}
+
+.ghzh-float:hover {
+  transform: translateY(-2px) scale(1.04);
+}
+
+.ghzh-float:active {
+  transform: scale(0.96);
+}

@@ -1,0 +1,35 @@
+# 依赖与构建产物
+node_modules/
+dist/
+*.zip
+*.crx
+*.xpi
+
+# 测试与临时产物
+coverage/
+tmp/
+.tmp/
+*.log
+npm-debug.log*
+
+# 本地配置与密钥（绝对不要提交）
+.env
+.env.*
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.json
+settings.local.json
+
+# 编辑器 / 系统文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# 浏览器里加载过的打包副本
+github-zh-cn-*.zip
