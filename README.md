@@ -195,6 +195,14 @@ npm test          # 5 套测试
 npm run scan      # 敏感信息自检：本地路径 / 令牌 / 私钥 / 邮箱
 ```
 
+提交前自动自检（钩子已随仓库提供，克隆后启用一次即可）：
+
+```bash
+git config core.hooksPath .githooks
+```
+
+之后每次 `git commit` 都会先跑 `tools/scan-secrets.mjs`，命中本地路径、令牌、私钥或邮箱时直接阻止提交（误报可用 `--no-verify` 跳过）。
+
 发布到自己的 GitHub（令牌只从环境变量读取，不写入任何文件）：
 
 ```bash
