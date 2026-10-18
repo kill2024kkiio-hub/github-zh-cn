@@ -186,3 +186,33 @@ npm run scan      # 提交前敏感信息自检（本地路径 / 令牌 / 私钥
 ## 许可
 
 MIT
+
+## 二次开发与发布
+
+```bash
+npm install       # 只为测试装 jsdom（运行扩展不需要）
+npm test          # 5 套测试
+npm run scan      # 敏感信息自检：本地路径 / 令牌 / 私钥 / 邮箱
+```
+
+发布到自己的 GitHub（令牌只从环境变量读取，不写入任何文件）：
+
+```bash
+# 方式 A：GitHub CLI（令牌由系统凭据管理器保存）
+gh auth login
+gh repo create github-zh-cn --public --source . --remote origin --push
+
+# 方式 B：PAT（Scope 勾 repo）
+$env:GITHUB_TOKEN = "ghp_你的令牌"
+node tools/publish.mjs
+```
+
+`tools/publish.mjs` 会先跑敏感信息自检，通过后才建仓库、配置 remote、推送；remote URL 始终是干净地址，令牌只通过临时 http header 传入。
+
+> 首次提交使用了中性占位身份（`github-zh-cn <github-zh-cn@users.noreply.github.com>`），避免把本机个人信息写进历史。想换成自己的：
+>
+> ```bash
+> git config user.name "你的名字"
+> git config user.email "你的邮箱"
+> git commit --amend --reset-author --no-edit
+> ```
