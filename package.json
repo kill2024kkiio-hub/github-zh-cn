@@ -21,6 +21,9 @@
     "zh-cn"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=22.15"
+  },
   "devDependencies": {
     "jsdom": "^30.1.3"
   }
