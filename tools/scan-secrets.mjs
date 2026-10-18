@@ -73,14 +73,11 @@ const RULES = [
   },
 ];
 
-/** 白名单：文档里必须出现的示例值 */
+/** 白名单：文档里必须出现的示例值与占位符 */
 const ALLOW = [
-  /noreply@users\.noreply\.github\.com/,
-  /xxx+@/i,
-  /example\.(com|org|test)/i,
-  /@example/i,
-  /your[_-]?key/i,
-  /\bxxxxx/i,
+  /@users\.noreply\.github\.com$/i,        // GitHub 官方 noreply 身份
+  /你的|xxx+|placeholder|example|demo|test/i, // 文档占位符
+  /@example\.(com|org)$/i,
 ];
 
 function walk(dir) {

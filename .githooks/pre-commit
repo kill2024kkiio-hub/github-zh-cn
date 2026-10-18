@@ -1,0 +1,9 @@
+#!/bin/sh
+# 提交前敏感信息自检（启用方式见 README：git config core.hooksPath .githooks）
+node tools/scan-secrets.mjs
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "提交已阻止：请先处理上面列出的本地路径 / 令牌 / 私钥 / 个人信息。"
+  echo "确认为误报时可用：git commit --no-verify"
+  exit 1
+fi
