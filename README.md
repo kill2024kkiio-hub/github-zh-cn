@@ -76,7 +76,7 @@ jsdom 没有布局、比真 Chrome 慢；真机上单块通常 1-3ms，滚动时
 - 缓存只存在浏览器本地，设置页可一键清空
 - 项目无服务器、无统计上报、无远程脚本
 
-细节见 [SECURITY.md](SECURITY.md)。仓库自身的合规约束（GitHub Actions 条款、账号操作守则）见 [docs/GITHUB-POLICY.md](docs/GITHUB-POLICY.md)。
+细节见 [SECURITY.md](SECURITY.md)。CI 的 Actions 使用规范见 [docs/GITHUB-POLICY.md](docs/GITHUB-POLICY.md)。
 
 ## 使用
 
