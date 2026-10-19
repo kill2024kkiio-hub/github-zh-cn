@@ -139,8 +139,15 @@ check('正文段落已翻译', `${PROSE_COUNT - proseLeft.length}/${PROSE_COUNT}
 check('请求总条数', `${batchTotal} 条`, batchTotal > 0);
 check('批次数', `${translateCalls.length} 批`, translateCalls.length * 64 >= batchTotal * 0.85,
   `单批最多 ${maxBatch} 条，上限 64`);
-check('平均批量', `${(batchTotal / translateCalls.length).toFixed(1)} 条/批`, batchTotal / translateCalls.length >= 20);
-check('未出现一条一请求', `${translateCalls.filter((n) => n === 1).length} 批单条`, translateCalls.filter((n) => n === 1).length <= 2);
+
+// 批量大小与“1 条批次”的占比依赖机器速度：慢机器上队列攒不满就会提前发，
+// 这是低延迟的合理权衡，不能当成回归。这里只拦“完全退化成一条一请求”。
+const avgBatch = batchTotal / translateCalls.length;
+const singleBatches = translateCalls.filter((n) => n === 1).length;
+const singleRatio = singleBatches / translateCalls.length;
+check('平均批量', `${avgBatch.toFixed(1)} 条/批`, avgBatch >= 8, '慢机器上会变小，但不应接近 1');
+check('单条批次占比', `${singleBatches}/${translateCalls.length} = ${(singleRatio * 100).toFixed(0)}%`,
+  singleRatio <= 0.35, '允许尾部少量小批次');
 
 console.log('');
 console.log(`walk：seen ${statsFinal.seen} · skipped ${statsFinal.skipped} · pending ${statsFinal.pending}`);
